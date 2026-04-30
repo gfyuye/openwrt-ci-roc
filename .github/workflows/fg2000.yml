@@ -12,7 +12,7 @@ env:
   #REPO_URL: https://github.com/LiBwrt/openwrt-6.x.git
   REPO_URL: https://github.com/immortalwrt/immortalwrt.git
   #REPO_BRANCH: main-nss
-  REPO_BRANCH: openwrt-24.10
+  REPO_BRANCH: openwrt-25.12
   CONFIG_FILE: configs/fg2000.config
   GENERAL_CONFIG_FILE: configs/General.config
   DIY_SCRIPT: scripts/Roc-script.sh
