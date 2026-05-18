@@ -7,17 +7,20 @@ on:
 
 jobs:
 
-    IPQ60XX-LibWrt:
-      uses: ./.github/workflows/IPQ60XX-LibWrt.yml
+    #IPQ60XX-LibWrt:
+     # uses: ./.github/workflows/IPQ60XX-LibWrt.yml
 
     IPQ807X-LibWrt:
       uses: ./.github/workflows/IPQ807X-LibWrt.yml
+      
+    FG2000-LibWrt:
+      uses: ./.github/workflows/fg2000.yml
 
-    JDCloud-ImmortalWrt:
-      uses: ./.github/workflows/JDCloud-ImmortalWrt.yml
+    #JDCloud-ImmortalWrt:
+     # uses: ./.github/workflows/JDCloud-ImmortalWrt.yml
 
-    JDCloud-NoWiFi-ImmortalWrt:
-      uses: ./.github/workflows/JDCloud-NoWiFi-ImmortalWrt.yml
+    #JDCloud-NoWiFi-ImmortalWrt:
+     # uses: ./.github/workflows/JDCloud-NoWiFi-ImmortalWrt.yml
 
-    x86-64-ImmortalWrt:
-      uses: ./.github/workflows/x86-64-ImmortalWrt.yml
+    #x86-64-ImmortalWrt:
+     # uses: ./.github/workflows/x86-64-ImmortalWrt.yml
