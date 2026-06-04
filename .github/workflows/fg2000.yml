@@ -65,6 +65,16 @@ jobs:
         echo "VERSION_INFO=$VERSION_INFO" >> $GITHUB_ENV
         VERSION_KERNEL=$(grep -oP 'LINUX_KERNEL_HASH-\K[0-9]+\.[0-9]+\.[0-9]+' target/linux/generic/kernel-6.12)
         echo "VERSION_KERNEL=$VERSION_KERNEL" >> $GITHUB_ENV
+        
+    - name: Debug - List repository structure(调试-列出仓库结构)
+      run: |
+        echo "Current workspace: $GITHUB_WORKSPACE"
+        echo "=== Repository root ==="
+        ls -la $GITHUB_WORKSPACE/
+        echo "=== Looking for DTS files ==="
+        find $GITHUB_WORKSPACE -name "*.dts" -o -name "*.dtsi" 2>/dev/null
+        echo "=== Directory tree (2 levels) ==="
+        find $GITHUB_WORKSPACE -maxdepth 2 -type d 2>/dev/null
 
     - name: Generate Variables(生成变量)
       run: |
