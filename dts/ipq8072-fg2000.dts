@@ -9,6 +9,7 @@
 #include "ipq8074.dtsi"
 #include "ipq8074-ess.dtsi"
 #include "ipq8074-nss.dtsi"
+#include "ipq8074-common.dtsi"
 #include "ipq8074-hk-cpu.dtsi"
 
 #include <dt-bindings/gpio/gpio.h>
@@ -321,7 +322,7 @@
 	status = "okay";
 	phy-mode = "usxgmii";
 	phy-handle = <&aqr108>;
-	label = "lan3";
+	label = "5g";
 };
 
 &switch {
@@ -351,8 +352,9 @@
 		port@6 {
 			port_id = <6>;
 			phy_address = <7>;
-			compatible = "ethernet-phy-id03a1.b460";			
-    };
+			compatible = "ethernet-phy-ieee802.3-c45";
+			ethernet-phy-ieee802.3-c45;
+		};
 	};
 };
 
