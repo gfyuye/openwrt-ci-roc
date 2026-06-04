@@ -21,7 +21,7 @@ env:
   FIRMWARE_RELEASE: true
   FIRMWARE_TAG: fg2000
   TZ: Asia/Shanghai
-
+  CUSTOM_DTS: dts  # 不要加路径前缀
 jobs:
   Build:
     runs-on: ubuntu-24.04
@@ -121,7 +121,7 @@ jobs:
         echo "Applying custom DTS for FG2000..."
         
         # 检查自定义 DTS 文件是否存在
-        if [ ! -f "$GITHUB_WORKSPACE/dts" ]; then
+        if [ ! -f "$GITHUB_WORKSPACE/$CUSTOM_DTS" ]; then
             echo "ERROR: Custom DTS file not found: $GITHUB_WORKSPACE/$CUSTOM_DTS"
             exit 1
         fi
