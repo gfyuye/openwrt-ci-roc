@@ -10,8 +10,8 @@ jobs:
     #IPQ60XX-LibWrt:
      # uses: ./.github/workflows/IPQ60XX-LibWrt.yml
 
-    IPQ807X-LibWrt:
-      uses: ./.github/workflows/IPQ807X-LibWrt.yml
+    # IPQ807X-LibWrt:
+    #  uses: ./.github/workflows/IPQ807X-LibWrt.yml
       
     FG2000-LibWrt:
       uses: ./.github/workflows/fg2000.yml
