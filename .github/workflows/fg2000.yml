@@ -121,7 +121,7 @@ jobs:
         echo "Applying custom DTS for FG2000..."
         
         # 检查自定义 DTS 文件是否存在
-        if [ ! -f "$GITHUB_WORKSPACE/$CUSTOM_DTS" ]; then
+        if [ ! -f "$GITHUB_WORKSPACE/dts" ]; then
             echo "ERROR: Custom DTS file not found: $GITHUB_WORKSPACE/$CUSTOM_DTS"
             exit 1
         fi
