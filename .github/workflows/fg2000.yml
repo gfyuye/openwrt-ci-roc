@@ -115,6 +115,90 @@ jobs:
         cd $OPENWRT_PATH
         make defconfig
         make download -j$(nproc)
+    # ============ 新增：应用自定义 DTS ============
+    - name: Apply Custom DTS(应用自定义DTS)
+      run: |
+        echo "Applying custom DTS for FG2000..."
+        
+        # 检查自定义 DTS 文件是否存在
+        if [ ! -f "$GITHUB_WORKSPACE/$CUSTOM_DTS" ]; then
+            echo "ERROR: Custom DTS file not found: $GITHUB_WORKSPACE/$CUSTOM_DTS"
+            exit 1
+        fi
+        
+        # 查找 OpenWrt 中现有的 FG2000 DTS 文件
+        cd $OPENWRT_PATH
+        DTS_SEARCH=$(find target/linux -name "*inseego*" -o -name "*fg2000*" -o -name "*FG2000*" 2>/dev/null)
+        echo "Found existing DTS files:"
+        echo "$DTS_SEARCH"
+        
+        if [ -n "$DTS_SEARCH" ]; then
+            # 如果有现有的 DTS，备份并替换
+            for dts_file in $DTS_SEARCH; do
+                echo "Backing up: $dts_file"
+                cp "$dts_file" "${dts_file}.orig"
+                echo "Replacing: $dts_file"
+                cp "$GITHUB_WORKSPACE/$CUSTOM_DTS" "$dts_file"
+            done
+        else
+            # 如果没有现有的 DTS，放到标准位置
+            DTS_TARGET="target/linux/${DEVICE_TARGET}/dts/qcom-ipq8074-inseego-fg2000.dts"
+            echo "No existing DTS found, copying to: $DTS_TARGET"
+            mkdir -p "$(dirname $DTS_TARGET)"
+            cp "$GITHUB_WORKSPACE/$CUSTOM_DTS" "$DTS_TARGET"
+        fi
+        
+        echo "Custom DTS applied successfully!"
+
+    # ============ 新增：应用补丁文件 ============
+    - name: Apply Patches(应用补丁文件)
+      run: |
+        echo "Applying custom patches..."
+        
+        # 检查补丁目录是否存在
+        if [ ! -d "$GITHUB_WORKSPACE/$CUSTOM_PATCHES_DIR" ]; then
+            echo "No patches directory found, skipping..."
+            exit 0
+        fi
+        
+        cd $OPENWRT_PATH
+        
+        # 确定目标补丁目录
+        KERNEL_VERSION=$(ls target/linux/${DEVICE_TARGET}/ | grep -oP 'patches-\K[0-9]+\.[0-9]+' | head -1)
+        if [ -z "$KERNEL_VERSION" ]; then
+            KERNEL_VERSION="6.12"  # 默认版本
+        fi
+        PATCH_TARGET="target/linux/${DEVICE_TARGET}/patches-${KERNEL_VERSION}"
+        
+        echo "Kernel version: $KERNEL_VERSION"
+        echo "Patch target directory: $PATCH_TARGET"
+        
+        # 创建目标目录（如果不存在）
+        mkdir -p "$PATCH_TARGET"
+        
+        # 复制所有补丁文件
+        PATCH_COUNT=0
+        for patch in "$GITHUB_WORKSPACE/$CUSTOM_PATCHES_DIR"/*.patch; do
+            if [ -f "$patch" ]; then
+                PATCH_NAME=$(basename "$patch")
+                echo "Copying patch: $PATCH_NAME"
+                cp "$patch" "$PATCH_TARGET/$PATCH_NAME"
+                PATCH_COUNT=$((PATCH_COUNT + 1))
+            fi
+        done
+        
+        echo "Applied $PATCH_COUNT patches successfully!"
+        
+        # 验证补丁格式
+        for patch in "$PATCH_TARGET"/*.patch; do
+            if [ -f "$patch" ]; then
+                echo "Verifying patch: $(basename $patch)"
+                if ! grep -q "^--- a/" "$patch" && ! grep -q "^--- a/" "$patch"; then
+                    echo "WARNING: Patch $(basename $patch) may not be in correct format"
+                fi
+            fi
+        done
+    
 
     - name: Compile Firmware(开始编译固件)
       id: compile
