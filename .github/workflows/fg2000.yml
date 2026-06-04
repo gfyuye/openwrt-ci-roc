@@ -125,6 +125,16 @@ jobs:
         cd $OPENWRT_PATH
         make defconfig
         make download -j$(nproc)
+
+        
+    # 在 Download DL Package 之后，添加验证步骤
+    - name: Verify Device Configuration(验证设备配置)
+      run: |
+        cd $OPENWRT_PATH
+        echo "=== Target device info ==="
+        grep "CONFIG_TARGET.*fg2000" .config || echo "WARNING: FG2000 not found in config"
+        echo "=== Available profiles ==="
+        make info -j1 | grep -A5 "Profiles:" | head -20
     # ============ 新增：应用自定义 DTS ============
     - name: Apply Custom DTS(应用自定义DTS)
       run: |
