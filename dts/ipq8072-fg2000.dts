@@ -322,7 +322,7 @@
 	status = "okay";
 	phy-mode = "usxgmii";
 	phy-handle = <&aqr108>;
-	label = "5g";
+	label = "lan3";
 };
 
 &switch {
