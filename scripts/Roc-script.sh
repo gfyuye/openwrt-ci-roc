@@ -54,7 +54,9 @@ rm -rf feeds/packages/lang/golang
 function git_sparse_clone() {
   branch="$1" repourl="$2" && shift 2
   git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
+  echo "clone目录: $repourl"
   repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
+  echo "进入目录: $repodir"
   cd $repodir && git sparse-checkout set $@
   mv -f $@ ../package
   cd .. && rm -rf $repodir
