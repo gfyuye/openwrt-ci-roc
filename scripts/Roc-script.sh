@@ -54,10 +54,10 @@ function git_sparse_clone() {
   branch="$1" repourl="$2" && shift 2
   echo "目标分支: $branch"
   echo "列出当前目录结构"
-  ls  
+  ls -la 
   git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
   echo "列出clone后目录结构"
-  ls
+  ls -la
   repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
   echo "进入目录: $repodir"
   cd $repodir && git sparse-checkout set $@
