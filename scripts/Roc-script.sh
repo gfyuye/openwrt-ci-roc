@@ -1,4 +1,15 @@
+if [ -z "$OPENWRT_PATH" ]; then
+    echo "错误: OPENWRT_PATH 环境变量未设置"
+    exit 1
+fi
+
+cd "$OPENWRT_PATH" || {
+    echo "错误: 无法切换到目录 $OPENWRT_PATH"
+    exit 1
+}
+
 echo "当前工作目录: $(pwd)"
+
 # 修改默认IP & 固件名称 & 编译署名和时间
 sed -i 's/192.168.1.1/192.168.0.1/g' package/base-files/files/bin/config_generate
 sed -i "s/hostname='.*'/hostname='Roc'/g" package/base-files/files/bin/config_generate
@@ -26,6 +37,7 @@ sed -i "s#_('Firmware Version'), (L\.isObject(boardinfo\.release) ? boardinfo\.r
 
 # 移除要替换的包
 rm -rf feeds/luci/applications/luci-app-argon-config
+echo "feeds/luci/applications/luci-app-argon-config已经移除"
 rm -rf feeds/luci/applications/luci-app-wechatpush
 rm -rf feeds/luci/applications/luci-app-appfilter
 rm -rf feeds/luci/applications/luci-app-frpc
