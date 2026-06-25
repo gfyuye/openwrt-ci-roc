@@ -116,10 +116,8 @@ jobs:
     - name: Load Custom Configuration(加载自定义配置)
       run: |
         chmod +x $DIY_SCRIPT
-        cd $OPENWRT_PATH 
-        export OPENWRT_PATH=$OPENWRT_PATH
-        bash $GITHUB_WORKSPACE/$DIY_SCRIPT
-        shell: bash
+        cd $OPENWRT_PATH         
+        $GITHUB_WORKSPACE/$DIY_SCRIPT        
 
     - name: Download DL Package(下载DL软件包)
       run: |
