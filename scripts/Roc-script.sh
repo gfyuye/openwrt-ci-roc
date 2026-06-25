@@ -1,4 +1,4 @@
-cd "$OPENWRT_PATH" || exit 1
+echo "当前工作目录: $(pwd)"
 # 修改默认IP & 固件名称 & 编译署名和时间
 sed -i 's/192.168.1.1/192.168.0.1/g' package/base-files/files/bin/config_generate
 sed -i "s/hostname='.*'/hostname='Roc'/g" package/base-files/files/bin/config_generate
