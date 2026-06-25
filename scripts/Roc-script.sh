@@ -52,12 +52,7 @@ ls
 # Git稀疏克隆，只克隆指定目录到本地
 function git_sparse_clone() {
   branch="$1" repourl="$2" && shift 2
-  echo "目标分支: $branch"
-  echo "列出当前目录结构"
-  ls -la 
   git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
-  echo "列出clone后目录结构"
-  ls -la
   repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
   echo "进入目录: $repodir"
   cd $repodir && git sparse-checkout set $@
@@ -74,11 +69,11 @@ git_sparse_clone ariang https://github.com/laipeng668/packages net/ariang
 mv -f package/ariang feeds/packages/net/ariang
 git_sparse_clone master https://github.com/laipeng668/packages lang/golang
 mv -f package/golang feeds/packages/lang/golang
-git_sparse_clone frp-binary https://github.com/laipeng668/packages net/frp
-mv -f package/frp feeds/packages/net/frp
-git_sparse_clone frp https://github.com/laipeng668/luci applications/luci-app-frpc applications/luci-app-frps
-mv -f package/luci-app-frpc feeds/luci/applications/luci-app-frpc
-mv -f package/luci-app-frps feeds/luci/applications/luci-app-frps
+#git_sparse_clone frp-binary https://github.com/laipeng668/packages net/frp
+#mv -f package/frp feeds/packages/net/frp
+#git_sparse_clone frp https://github.com/laipeng668/luci applications/luci-app-frpc applications/luci-app-frps
+#mv -f package/luci-app-frpc feeds/luci/applications/luci-app-frpc
+#mv -f package/luci-app-frps feeds/luci/applications/luci-app-frps
 git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon feeds/luci/themes/luci-theme-argon
 git clone --depth=1 https://github.com/jerrykuku/luci-app-argon-config feeds/luci/applications/luci-app-argon-config
 git clone --depth=1 https://github.com/eamonxg/luci-theme-aurora feeds/luci/themes/luci-theme-aurora
