@@ -49,12 +49,12 @@ rm -rf feeds/packages/net/aria2
 rm -rf feeds/packages/net/nginx
 rm -rf feeds/packages/net/frp
 rm -rf feeds/packages/lang/golang
-
+ls
 # Git稀疏克隆，只克隆指定目录到本地
 function git_sparse_clone() {
   branch="$1" repourl="$2" && shift 2
   git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
-  echo "clone目录: $repourl"
+  ls
   repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
   echo "进入目录: $repodir"
   cd $repodir && git sparse-checkout set $@
