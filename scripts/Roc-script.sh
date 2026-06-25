@@ -37,7 +37,6 @@ sed -i "s#_('Firmware Version'), (L\.isObject(boardinfo\.release) ? boardinfo\.r
 
 # 移除要替换的包
 rm -rf feeds/luci/applications/luci-app-argon-config
-echo "feeds/luci/applications/luci-app-argon-config已经移除"
 rm -rf feeds/luci/applications/luci-app-wechatpush
 rm -rf feeds/luci/applications/luci-app-appfilter
 rm -rf feeds/luci/applications/luci-app-frpc
@@ -53,7 +52,11 @@ ls
 # Git稀疏克隆，只克隆指定目录到本地
 function git_sparse_clone() {
   branch="$1" repourl="$2" && shift 2
+  echo "目标分支: $branch"
+  echo "列出当前目录结构"
+  ls  
   git clone --depth=1 -b $branch --single-branch --filter=blob:none --sparse $repourl
+  echo "列出clone后目录结构"
   ls
   repodir=$(echo $repourl | awk -F '/' '{print $(NF)}')
   echo "进入目录: $repodir"
